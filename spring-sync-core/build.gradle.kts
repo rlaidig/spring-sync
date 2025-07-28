@@ -1,12 +1,13 @@
 description = "Spring Differential Synchronization and JSON Patch"
 
+
 plugins{
     id("jar-publishing")
     id("spring-conventions")
     id("testing-conventions")
     id("wgu-repository")
     id("java-conventions")
-
+    id("utils")
 }
 
 dependencyManagement{
