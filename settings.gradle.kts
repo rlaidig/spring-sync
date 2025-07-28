@@ -1,4 +1,4 @@
-rootProject.name = "spring-sync"
+rootProject.name = "spring-sync_wgu-fork"
 
 //include("docs", "docs:manual")
 //val docs = findProject(":docs")

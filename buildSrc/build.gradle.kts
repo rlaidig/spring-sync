@@ -68,7 +68,7 @@ dependencies {
     implementation("org.owasp:dependency-check-gradle:${libs.versions.owaspcvecheck.get()}")
 
     testImplementation("org.springframework:spring-test:${libs.versions.springVersion.get()}")
-    testImplementation("junit:junit:${libs.versions.junitVersion.get()}")
     testImplementation("org.hamcrest:hamcrest-all:${libs.versions.hamcrestVersion.get()}")
     testImplementation("org.easymock:easymock:${libs.versions.easymockVersion.get()}")
+
 }

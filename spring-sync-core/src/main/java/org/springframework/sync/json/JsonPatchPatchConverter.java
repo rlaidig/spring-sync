@@ -19,16 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.sync.AddOperation;
-import org.springframework.sync.CopyOperation;
-import org.springframework.sync.FromOperation;
-import org.springframework.sync.MoveOperation;
-import org.springframework.sync.Patch;
-import org.springframework.sync.PatchException;
-import org.springframework.sync.PatchOperation;
-import org.springframework.sync.RemoveOperation;
-import org.springframework.sync.ReplaceOperation;
-import org.springframework.sync.TestOperation;
+import org.springframework.sync.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

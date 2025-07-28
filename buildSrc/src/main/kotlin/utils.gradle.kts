@@ -8,7 +8,7 @@ tasks.create("allDependencies") {
     description = "run dependencies task for all subprojects"
 }
 
-val excludedProjects = listOf("wgu-boot-starter")
+val excludedProjects = listOf("")
 allprojects {
     tasks.create("runDependencies")  {
         dependsOn("dependencies")

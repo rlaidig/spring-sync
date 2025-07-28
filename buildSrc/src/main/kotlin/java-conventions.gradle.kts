@@ -19,6 +19,14 @@ project.logger.debug("javaVersion: $javaVersion")
 //	apply plugin: "javadocHotfix"
 plugins {
     `java-library`
+    idea
+}
+
+idea {
+    module {
+        isDownloadJavadoc = true
+        isDownloadSources = true
+    }
 }
 
 java {

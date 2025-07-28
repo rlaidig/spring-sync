@@ -15,10 +15,12 @@
  */
 package org.springframework.sync;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestOperationTest {
 
@@ -38,7 +40,7 @@ public class TestOperationTest {
 
 	}
 
-	@Test(expected=PatchException.class)
+	@Test
 	public void testPropertyValueNotEquals() throws Exception {
 		// initial Todo list
 		List<Todo> todos = new ArrayList<Todo>();
@@ -47,7 +49,9 @@ public class TestOperationTest {
 		todos.add(new Todo(3L, "C", false));
 		
 		TestOperation test = new TestOperation("/0/complete", true);
-		test.perform(todos, Todo.class);
+		assertThrows(PatchException.class, () -> {
+			test.perform(todos, Todo.class);
+		});
 	}
 	
 	@Test

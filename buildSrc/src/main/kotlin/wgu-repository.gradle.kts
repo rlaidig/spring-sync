@@ -26,6 +26,7 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        google()
         maven {
             name = releaseRepo
             url = URI("https://nexus.wgu.edu/content/repositories/WGU")

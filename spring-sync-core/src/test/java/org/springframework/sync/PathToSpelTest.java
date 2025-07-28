@@ -15,13 +15,14 @@
  */
 package org.springframework.sync;
 
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.expression.Expression;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PathToSpelTest {
 
