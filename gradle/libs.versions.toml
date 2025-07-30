@@ -31,7 +31,8 @@ benManesGradle           = "0.52.0" # https://github.com/ben-manes/gradle-versio
 japicmp                  = "0.4.6" # https://plugins.gradle.org/plugin/me.champeau.gradle.japicmp
 owaspcvecheck            = "12.1.0" # https://github.com/jeremylong/DependencyCheck/releases?page=1
 jacoco                   = "0.8.13" # https://github.com/jacoco/jacoco https://central.sonatype.com/artifact/org.jacoco/org.jacoco.agent/versions
-wgu_spring-sync_Version  = "2.0.0"
+#wgu_spring-sync_Version  = "1.0.0"
+org_springframework_sync-version = "1.0.0"
 
 #//// Set up different subproject lists for individual configuration
 #//ext.javaProjects = subprojects.findAll { project -> project.name != 'docs' && project.name != 'manual' }

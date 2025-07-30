@@ -4,19 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 val javaVersion = "${versionCatalog.findVersion("javaVersion").get()}"
 
-project.logger.debug("javaVersion: $javaVersion")
-
-//configure<JavaPluginExtension> {
-//    sourceCompatibility = JavaVersion.toVersion(javaVersion)
-//}
-
-//	apply plugin: "propdeps"
-//	apply plugin: "propdeps-eclipse"
-//	apply plugin: "propdeps-idea"
-//	apply plugin: "java"
-//	apply plugin: "eclipse"
-//	apply plugin: "idea"
-//	apply plugin: "javadocHotfix"
 plugins {
     `java-library`
     idea

@@ -16,10 +16,8 @@ val mavenPassword: String by project
 val releaseRepo = "release-repo"
 val snapshotRepo = "snapshot-repo"
 
-val projectVersion = "${versionCatalog.findVersion("wgu_spring-sync_Version").get()}"
+val projectVersion = "${versionCatalog.findVersion("org_springframework_sync-version").get()}"
 
-group = "edu.wgu"
-version = "${projectVersion}"
 
 
 allprojects {

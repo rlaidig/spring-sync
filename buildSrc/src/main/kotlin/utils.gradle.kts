@@ -3,14 +3,14 @@ plugins {
     id("com.github.ben-manes.versions")
 }
 
-tasks.create("allDependencies") {
+tasks.register("allDependencies") {
     group = "verification"
     description = "run dependencies task for all subprojects"
 }
 
 val excludedProjects = listOf("")
 allprojects {
-    tasks.create("runDependencies")  {
+    tasks.register("runDependencies")  {
         dependsOn("dependencies")
     }
     tasks.getByName("allDependencies").dependsOn("runDependencies")

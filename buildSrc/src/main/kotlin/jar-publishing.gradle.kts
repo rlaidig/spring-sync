@@ -1,9 +1,7 @@
 
 
 plugins {
-//    id("wgu-boot.spring-conventions")
     id("testing-conventions")
-//    id("wgu-boot.dependency-overrides")
     id("utils")
     id("wgu-repository")
 }
@@ -21,8 +19,10 @@ tasks.getByName<Jar>("jar") {
 allprojects {
     publishing {
         publications.create<MavenPublication>("mavenJar") {
-            from(components["java"])
-
+//            from(components["java"]
+            artifact(tasks.named("jar")) {
+                classifier = "WGU-fork"
+            }
             versionMapping {
                 usage("java-api") {
                     fromResolutionOf("runtimeClasspath")
