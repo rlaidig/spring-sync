@@ -3,7 +3,6 @@ group = "org.springframework.sync"
 
 plugins{
     id("jar-publishing")
-//    id("spring-conventions")
     id("testing-conventions")
     id("wgu-repository")
     id("java-conventions")
