@@ -1,0 +1,42 @@
+name: deploy to nexus
+on:
+  pull_request:
+    branches:
+      - master-3.x.x
+      - master-4.x.x
+    types:
+      - closed
+
+jobs:
+  nexusDeployment:
+    if: github.event.pull_request.merged == true
+    runs-on: self-hosted
+    steps:
+      - uses: AutoModality/action-clean@v1
+      - uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+      - name: Set up JDK 21
+        uses: actions/setup-java@v1
+        with:
+          java-version: "21"
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build
+        env:
+          NEXUS_LOGIN: ${{ secrets.SONAR_NEXUS_PASSWORD }}
+          NEXUS_USER: ${{ secrets.SONAR_NEXUS_USER }}
+        run: |
+          build/build.sh
+      - name: Deploy to Nexus from master branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          build/deploy.sh
+      - uses: AutoModality/action-clean@v1

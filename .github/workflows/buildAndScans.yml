@@ -1,0 +1,80 @@
+name: Build and Scans
+on:
+  push:
+    branches:
+      - main
+      - development
+  # Trigger analysis on pull requests
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**/src/**'
+  workflow_dispatch:
+
+jobs:
+  scans:
+    runs-on: self-hosted
+    steps:
+      - uses: AutoModality/action-clean@v1
+      - uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+      - name: Set sonar repo product team tag
+        run: |
+          BASE_URL='https://sonarcloud.io/api/project_tags/set?project='
+          SONAR_REPO_KEY=`echo $GITHUB_REPOSITORY | tr "/" "_"`
+          TAGS_PARAM='&tags='
+          REPO_TAG_PARAM=${{ secrets.PRODUCT_TEAM }}
+          URL="$BASE_URL$SONAR_REPO_KEY$TAGS_PARAM$REPO_TAG_PARAM"
+          curl -v -X POST -u ${{ secrets.SONAR_TOKEN }}":" $URL
+      - name: Set up JDK 21
+        uses: actions/setup-java@v1
+        with:
+          java-version: "21"
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build
+        env:
+          NEXUS_LOGIN: ${{ secrets.SONAR_NEXUS_PASSWORD }}
+          NEXUS_USER: ${{ secrets.SONAR_NEXUS_USER }}
+        run: |
+          build/build.sh
+      - name: Run SonarCloud Analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        working-directory: idmap-sdk
+        run: |
+          chmod +x gradle_props.sh
+          ls -lSa
+          ./gradle_props.sh ${{ secrets.SONAR_NEXUS_USER }} ${{ secrets.SONAR_NEXUS_PASSWORD }}
+          ./gradlew clean build sonarqube
+      - name: Extract version
+        id: extract_version
+        run: |
+          echo "build_version=$(cat idmap-sdk/build.gradle.kts | sed -nE 's/.*version = [^0-9]*([0-9][0-9.]*).*/\1/p')" >> $GITHUB_OUTPUT
+      - name: Set veracode scan name
+        id: veracode_scan_name
+        run: |
+          echo "scan_name=${{ steps.extract_version.outputs.build_version }}-$(date +"%Y%m%d%H%M%S")" >> $GITHUB_OUTPUT
+      - name: Veracode Upload And Scan
+        uses: veracode/veracode-uploadandscan-action@master # Run the upload and scan action. Inputs are described above.
+        with:
+          appname: 'ngp-kernel-idmap-sdk'
+          version: '${{ steps.veracode_scan_name.outputs.scan_name }}'
+          filepath: 'idmap-sdk/build/libs/idmap-sdk-${{ steps.extract_version.outputs.build_version }}.jar'
+          vid: '${{ secrets.VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY }}'
+          scantimeout: 20
+          criticality: "High"

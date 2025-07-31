@@ -52,7 +52,7 @@ allprojects {
         repositories {
             val isSnapshot = projectVersion.endsWith("-SNAPSHOT")
             val isRelease = !isSnapshot;
-            println("wgu-spring-sync Version: ${projectVersion}, isRelease: ${isRelease}, isSnapshot: ${isSnapshot}")
+            println("${project.name} Version: ${projectVersion}, isRelease: ${isRelease}, isSnapshot: ${isSnapshot}")
 
             if (isRelease) {
                 maven {
