@@ -12,7 +12,7 @@ plugins{
 dependencies {
     api(platform("org.springframework.boot:spring-boot-dependencies:${libs.versions.springBoot.get()}"))
     api("org.springframework:spring-expression:${libs.versions.springVersion.get()}")
-    api("commons-lang:commons-lang:${libs.versions.commonsLangVersion.get()}")
+    api("org.apache.commons:commons-lang3:${libs.versions.commonsLangVersion.get()}")
     api("com.googlecode.java-diff-utils:diffutils:${libs.versions.diffUtilsVersion.get()}")
     api("com.fasterxml.jackson.core:jackson-databind")
 
